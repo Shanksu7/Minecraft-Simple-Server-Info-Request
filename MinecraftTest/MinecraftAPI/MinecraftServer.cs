@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,26 +12,19 @@ namespace MinecraftTest.MinecraftAPI
     [JsonObject]
     public class MinecraftServer
     {
-        
+        private static readonly HttpClient _client = new HttpClient(new HttpClientHandler
+        { ServerCertificateCustomValidationCallback = (____, ___, __, _) => true });
+
         public static async Task<MinecraftServer> GetServer(string ip_port)
         {
             string ip = $"https://api.mcsrvstat.us/2/{ip_port}";
             //var html = new HtmlAgilityPack.HtmlWeb().Load(ip);            
-            using (var httpClientHandler = new HttpClientHandler())
-            {
-                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
-                {
-                    return true;
-                };
-                using (var client = new HttpClient(httpClientHandler))
-                {
-                    var response = await client.GetAsync(ip);
-                    response.EnsureSuccessStatusCode();
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<MinecraftServer>(responseBody);
-                }
-            }
-            
+         
+            var response = await _client.GetAsync(ip).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<MinecraftServer>(responseBody);
+              
         }
 
         public MinecraftServer()
