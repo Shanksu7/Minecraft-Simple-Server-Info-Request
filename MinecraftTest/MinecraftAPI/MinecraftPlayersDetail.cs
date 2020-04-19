@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MinecraftTest.MinecraftAPI
+namespace MinecraftAPI
 {
     [JsonObject]
     public class MinecraftPlayersDetail

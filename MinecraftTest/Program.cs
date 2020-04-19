@@ -1,4 +1,4 @@
-﻿using MinecraftTest.MinecraftAPI;
+﻿using MinecraftAPI;
 using System;
 using System.Threading.Tasks;
 
@@ -8,7 +8,7 @@ namespace MinecraftTest
     {
         static async Task Main(string[] args)
         {
-            var server = await MinecraftServer.GetServer("45.35.93.194:25617");
+            var server = await MinecraftServer.GetServer("45.35.93.194:25617").ConfigureAwait(false);
             if(server.Online)
                 Console.WriteLine("Servidor online!");
             else

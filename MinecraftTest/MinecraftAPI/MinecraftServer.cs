@@ -7,7 +7,7 @@ using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecraftTest.MinecraftAPI
+namespace MinecraftAPI
 {
     [JsonObject]
     public class MinecraftServer
